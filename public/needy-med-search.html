@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+
+    <title>Document</title>
+    <script src="js/angular.min.js">   </script>
+    <script>
+        var moduleKuch = angular.module("myModule", []);
+        moduleKuch.controller("myController", function ($scope, $http) {
+
+            //------------------
+            $scope.jsonAry = [];
+            $scope.jsoncityAry = [];
+            $scope.jsonmedAry = [];
+            $scope.jsoncontactAry=[];
+            //------------------------
+
+            //--------------------------
+
+            $scope.fetchAllcity = function () {
+                $http.get("/fetchAllcity").then(fxSuccess, function (response) {
+                    alert(JSON.stringify(response.data));
+                });
+                function fxSuccess(response) {
+                    //  alert(JSON.stringify(response.data));
+                    $scope.jsoncityAry = response.data;
+                }
+            }
+            //------------------
+
+            $scope.fetchAllmedicine = function () {
+                var city=document.getElementById("city").value;
+                var url="/fetchAllmedicine?cityx="+city;
+                $http.get(url).then(fxSuccess, function (response) {
+                    alert(JSON.stringify(response.data));
+                });
+                function fxSuccess(response) {
+                   // alert(JSON.stringify(response.data));
+                    $scope.jsonmedAry = response.data;
+                }
+            }
+
+
+
+
+
+            $scope.doSearchNow = function () {
+                var med = document.getElementById("medicines").value;
+                var city=document.getElementById("city").value;
+                $http.get("/fetchSomeMedRecords?med=" + med +"&cityx=" +city).then(fxSuccess, function (response) {
+                    alert(JSON.stringify(response.data));
+                });
+                function fxSuccess(response) {
+                    alert(JSON.stringify(response.data));
+                    $scope.jsonAry = response.data;
+                }
+            }
+
+            $scope.fetchcontact=function(email){
+                var url="/fetchAlldetails?emailx="+email;
+                $http.get(url).then(fxSuccess, function (response) {
+                    alert(JSON.stringify(response.data));
+                });
+                function fxSuccess(response) {
+                   // alert(JSON.stringify(response.data));
+                    $scope.jsoncontactAry = response.data;
+                }
+
+            }
+
+
+
+
+
+        })
+
+    </script>
+</head>
+
+<body ng-app="myModule" ng-controller="myController" ng-init="fetchAllcity();">
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid"  style="background-color:#f08080;margin-top:-8px;height:70px;">
+         
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item"><img src="pics/mdlogo.jpg" class="img-thumbnail" style="width:69px; height:69px;color: #f08080; border-radius:32%;" alt="..."></li>
+            </ul>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="margin-left:-62%;">
+              <li class="nav-item"><h2>Medicine Donation</h2></li>
+            </ul>
+           
+          </div>
+        </div>
+      </nav>
+    
+    <center>
+        <center>
+            <h2>Search Medicines Here</h2>
+        </center>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3" style="margin-left:25%">
+                    <label for="inputState" class="form-label">Cities</label>
+                    <select name="city" id="city"  class="form-select"  ng-click="fetchAllmedicine();" >
+
+                        <option value="none">Select</option>
+                        <option ng-repeat="obj in jsoncityAry"  value="{{obj.city}}">{{obj.city}}</option>
+
+
+                    </select>
+                </div>
+                <div class="col-md-3">
+
+                    <label for="inputState" class="form-label">Medicines</label>
+                    <select name="medicines" id="medicines" class="form-select" >
+
+                        <option value="none">Select</option>
+                        <option ng-repeat="obj in jsonmedAry" value="{{obj.medicine}}">{{obj.medicine}}</option>
+
+                    </select>
+                </div>
+            </div>
+        </div>
+        <br>
+        <center>
+            <input type="button" value="Seek Donors" ng-click=doSearchNow();>
+        </center>
+        </center>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3" ng-repeat="obj in jsonAry">
+                    <div class="card">
+                        <img height="100" src="uploads/{{obj.pic}}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{obj.emailid}}</h5>
+                            <h5 class="card-title">{{obj.medicine}}</h5>
+                            <h5 class="card-title">{{obj.packing}}</h5>
+                            <h5 class="card-title">{{obj.qty}}</h5>
+                            <h5 class="card-title">{{obj.expdate}}</h5>
+                            <h5 class="card-title">{{obj.company}}</h5>
+                            <h5 class="card-title">{{obj.description}}</h5>
+                            <h5 class="card-title">{{obj.dateoflist}}</h5>
+                            <h5 class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop" ng-click="fetchcontact(obj.emailid);" >Contact Donor</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ========================================================= -->
+  
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          
+           
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Emailid</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Mobile</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Timings</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="obj in jsoncontactAry">
+                    <td>{{obj.email}}</td>
+                    <td>{{obj.name}}</td>
+                    <td>{{obj.mobile}}</td>
+                    <td>{{obj.address}}</td>
+                    <td>{{obj.timings}}</td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+
+
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+
+</body>
+
+</html>

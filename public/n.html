@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <script src="js/jquery-1.8.2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <script>
+ $(document).ready(function(){
+$("#btnprocess").click(function(){
+var email=$("#txtemail").val();
+var pwd=$("#txtpwd").val();
+var utype=$("#utype").val();
+var url="/signup?txtemail="+email + "&pwd=" + pwd + "&utype=" + utype;
+$.get(url,function(response){
+  alert(response);
+})
+})
+$("#loginbutton").click(function(){
+  var email=$("#txtemail1").val();
+  var pass=$("#txtpwd1").val();
+ // alert(email+" "+pass);
+  var url="/chklogin?txtemail="+email +"&txtpass=" +pass;
+ // alert(url);
+  $.getJSON(url,function(jsonary){
+    alert(JSON.stringify(jsonary));
+    if(jsonary.length==0)
+    alert("invalid");
+    else
+    {
+      localStorage.setItem("activeuser",$("#txtemail1").val());
+      if(jsonary[0].utype=="donor")
+      window.location.replace("/dash-donor.html");
+      else
+      if(jsonary[0].utype=="needy")
+      window.location.replace("/dash-needy.html");
+    }
+    
+  })
+})
+})
+
+  </script>
+  </head>
+  <body>
+    <center>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+  <!-- Button trigger modal -->
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" >
+    Signup
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" style="margin: auto;">Signup</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                <input type="email" class="form-control" name="txtemail" id="txtemail" value="naman@gmail.com">
+              </div>
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Password</label>
+                <input type="password" class="form-control" name="txtpwd" id="txtpwd" value="naman" >
+              </div>
+              <div>
+              <select class="form-select" aria-label="Default select example" name="utype" id="utype">
+                <option selected>Open this select menu</option>
+                <option value="donor">Donor</option>
+                <option value="needy">Needy</option>
+                 
+              </select>
+              </div>
+        </div>
+        
+        <div class="modal-footer">
+          
+          <button type="button" id="btnprocess" class="btn btn-primary" style="margin: auto;">Signup</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- Button trigger modal -->
+  
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >
+    Login
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel" style="margin: auto;">Login</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="txtemail1" placeholder="name@example.com">
+              </div>
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Password</label>
+                <input type="password" class="form-control" id="txtpwd1" >
+              </div>
+        </div>
+        <div class="modal-footer">
+          
+          <button type="button" class="btn btn-primary" style="margin: auto;" id="loginbutton">Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </center>
+  <p>
+    <a href="/admin-panel.html">ANGULAR </a>
+</p>
+<p>
+  <a href="/needy-med-search.html">ANGULAR </a>
+</p>
+<p>
+  <a href="/donor-med-manager.html">manager </a>
+</p>
+</body>
+</html>

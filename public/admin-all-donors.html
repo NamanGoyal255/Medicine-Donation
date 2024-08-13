@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/angular.min.js">   </script>
+    <script>
+        var moduleKuch=angular.module("myModule",[]);
+        moduleKuch.controller("myController",function($scope,$http)
+        {
+                
+               
+                //------------------
+                $scope.jsonAry=[];
+               
+
+            $scope.fetchAllRecords=function()
+            {
+                $http.get("/fetchAllDonorRecords").then(fxSuccess,function(response){
+                        alert(JSON.stringify(response.data));
+                   });
+                   function fxSuccess(response)
+                   {
+                    //alert(JSON.stringify(response.data));
+                    $scope.jsonAry=response.data;
+                   }
+            }
+            //------------------------
+            $scope.doDelete=function(email,index)
+            {
+                   
+                   if(confirm("R U Sure?")==false)
+                        return;
+
+                   var url="/profile-delete?emailidX="+email;
+                   $http.get(url).then(fxAnmol,function(response){
+                        alert(response.data);
+                   });
+                   function fxAnmol(response)
+                   {
+                        //alert(response.data);
+                        $scope.fetchAllRecords();
+                   }
+            }
+        })
+
+    </script>
+</head>
+<body ng-app="myModule" ng-controller="myController" ng-init=fetchAllRecords();>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid"  style="background-color:#f08080;margin-top:-8px;height:70px;">
+         
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item"><img src="pics/mdlogo.jpg" class="img-thumbnail" style="width:69px; height:69px;color: #f08080; border-radius:32%;" alt="..."></li>
+            </ul>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="margin-left:-62%;">
+              <li class="nav-item"><h2>Medicine Donation</h2></li>
+            </ul>
+           
+          </div>
+        </div>
+      </nav>
+    
+    <div style="background-color:bisque; width:100%; height: 100%;">
+<center>
+    <h3>All Donors</h3>
+</center>
+<center>
+    <table border="1" rules="all" width="90%" height="400"> 
+        <tr bgcolor="yellow">
+            <th>Sr.No</th>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Mobile</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Prooftype</th>
+            <th>Timings</th>
+            <th>Proofpic</th>
+            <th>Profilepic</th>
+            <th>
+                Delete
+            </th>
+        </tr>
+        <tr ng-repeat="obj in jsonAry">
+                <td align="center">{{$index}}</td>
+                <td align="center">{{obj.email}}</td>
+                <td align="center">{{obj.name}}</td>
+                <td align="center">{{obj.mobile}}</td>
+                <td align="center">{{obj.address}}</td>
+                <td align="center">{{obj.city}}</td>
+                <td align="center">{{obj.prooftype}}</td>
+                <td align="center">{{obj.timings}}</td>
+                
+                <td align="center">
+                    <img src="uploads/{{obj.proofpic}}" alt="" width="100" height="100">
+                </td>
+                <td align="center">
+                    <img src="uploads/{{obj.profilepic}}" alt="" width="100" height="100">
+                </td>
+                <td align="center">
+                    <input type="button" value="Delete" ng-click=doDelete(obj.email,$index);>
+                </td>
+
+        </tr>
+    </table>
+</center>
+</div>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <script src="js/jquery-1.8.2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script>
+        function loadFile(ref) {
+            var image = document.getElementById('prev');
+            image.src = URL.createObjectURL(ref.files[0]);
+
+        };
+    </script>
+</head>
+
+<body style="background-color:burlywood;">
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid"  style="background-color:#f08080;margin-top:-8px;height:70px;">
+         
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item"><img src="pics/mdlogo.jpg" class="img-thumbnail" style="width:69px; height:69px;color: #f08080; border-radius:32%;" alt="..."></li>
+            </ul>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="margin-left:-62%;">
+              <li class="nav-item"><h2>Medicine Donation</h2></li>
+            </ul>
+           
+          </div>
+        </div>
+      </nav>
+    
+    <div class="container" >
+        <center>
+            <h1>Post Medicine to Donate</h1>
+        </center>
+        <form method="post" class="row g-3" enctype="multipart/form-data">
+
+
+            <div class="col-md-6">
+                <label for="inputEmail4" class="form-label">Email</label>
+                <input type="text" class="form-control" name="txtEmail" value="bcebTi@hfhf.com" id="txtEmail">
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-4">
+                    <label for="inputEmail4" class="form-label">Medicine Name</label>
+                    <input type="text" class="form-control" name="txtmedname" id="txtmedname" value="Dolo">
+                </div>
+                <div class="col-md-4">
+                    <label for="inputState" class="form-label">Packing</label>
+                    <select name="packing" id="packing" class="form-select">
+                        <option>Choose...</option>
+                        <option value="none" selected>Select</option>
+                        <option value="sachet">Sachet</option>
+                        <option value="Syrup">Syrup</option>
+                        <option value="Capsule">Capsule</option>
+                        <option value="Tablet">Tablet</option>
+                        <option value="Drops">Drops</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="inputEmail4" class="form-label">Quantity</label>
+                    <input type="text" class="form-control" name="txtqty" id="txtqty" value="4">
+                </div>
+
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label for="inputEmail4" class="form-label">Expiriy Date</label>
+                    <input type="date" class="form-control" name="expdate" id="expdate">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="inputEmail4" class="form-label">Company</label>
+                    <input type="text" class="form-control" name="txtcompany" id="txtcompany" value="Cipla">
+                </div>
+
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <input type="file" name="medpic" accept=".jpg, .jpeg, .png" onchange="loadFile(this);">
+                </div>
+                <div class="col-md-6">
+                    <img id="prev" src="" width="100" height="100" alt="">
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-md-12">
+                    <label for="inputEmail4" class="form-label">Description</label>
+                    <input type="text" class="form-control" name="description" value="if any" id="description" style="height: 100px;">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <center>
+                    <input type="submit" formaction="/medicine-process" class="btn btn-primary"
+                        value="List The Medicine">
+
+                </center>
+            </div>
+
+
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
